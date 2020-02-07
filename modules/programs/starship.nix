@@ -87,7 +87,7 @@ in {
 
     programs.fish.promptInit = mkIf cfg.enableFishIntegration ''
       if test -z "$INSIDE_EMACS"
-        eval (${cfg.package}/bin/starship init fish)
+        ${cfg.package}/bin/starship init fish | source
       end
     '';
   };
