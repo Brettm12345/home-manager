@@ -97,6 +97,7 @@ in {
 
   config = mkIf cfg.enable {
     home.packages = [ cfg.package ];
+<<<<<<< HEAD
     xdg.configFile."starship.toml" = let
       fromKey = key:
         mapAttrs' (name: value: nameValuePair name { "${key}" = value; });
@@ -105,6 +106,11 @@ in {
           (builtins.map (name: nameValuePair name { disabled = true; })
             cfg.disabled));
     in mkIf (settings != { }) { source = configFile settings; };
+=======
+
+    xdg.configFile."starship.toml" =
+      mkIf (cfg.settings != { }) { source = configFile cfg.settings; };
+>>>>>>> starship-fish
 
     programs.bash.initExtra = mkIf cfg.enableBashIntegration ''
       if [[ -z $INSIDE_EMACS ]]; then
@@ -120,7 +126,7 @@ in {
 
     programs.fish.promptInit = mkIf cfg.enableFishIntegration ''
       if test -z "$INSIDE_EMACS"
-        eval (${cfg.package}/bin/starship init fish)
+        ${cfg.package}/bin/starship init fish | source
       end
     '';
   };
